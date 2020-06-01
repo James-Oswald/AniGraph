@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" href="index.css"/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+		<script type="module" src="index.js"></script>
+		<script src="MalScraper.js"></script>
+	</head>
+	<body>
+		<input type="file" id="xmlFileUpload" onChange="newXML()"></br>
+		<input id="statusCheck" type="checkbox" onclick="reload()" checked/><label for="statusCheck">Show Statuses</label><br/>
+		<input id="scoreCheck" type="checkbox" onclick="reload()"/><label for="scoreCheck">Show Scores</label><br/>
+		<input id="typeCheck" type="checkbox" onclick="reload()"/><label for="typeCheck">Show Types</label><br/>
+		<div id="statOp"></div>
+		<div id="typeOp"></div>
+		<div id="rangeOp">
+			<input id="customYears" type="checkbox" onclick="customYears()"/>
+			<label for="customYears">Use Custom Years?</label>
+			<input id="startYear" onchange="reload()" type="number" min="1900" max="2099" step="1" value="2000" disabled/>
+			<input id="endYear" onchange="reload()" type="number" min="1900" max="2099" step="1" value="2020" disabled/>
+		</div>
+		<div id="charts"></div>
+		<!--<script> main(); </script>-->
+	</body>
+</html>
