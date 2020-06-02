@@ -1,7 +1,7 @@
 {
   "name": "anigraphserver",
   "version": "1.0.0",
-  "description": "server side for anigraph",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jsdom": "^16.2.2",
     "mime": "^2.4.6"
   }
 }

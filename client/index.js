@@ -1,10 +1,10 @@
 "use strict"
 
+///*
 function getNode(xmlObject, tagName){
 	return xmlObject.getElementsByTagName(tagName)[0].childNodes[0].nodeValue;
 }
 
-///*
 class Anime{
 	constructor(animeXML){
 		this.title = getNode(animeXML, "series_title");

@@ -7,12 +7,10 @@ let fs = require("fs");
 let mime = require("mime");
 let url = require("url");
 
-
-
 function onRequest(request, responce){
     console.log("Request for: " + request.url);
-    let url = new URL(request.url);
-    if(url.){
+    let reqUrl = new URL(request.url);
+    if(reqUrl.){
         let path = "../client/" + request.url;
         fs.readFile(path, function(err, data){
             if(err){

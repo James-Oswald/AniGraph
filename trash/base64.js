@@ -1,6 +1,9 @@
 
-function base64Decode(number) {
-	const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/";
+//I was originally planning on encoding some paramters with base 64, so i wrote this very fast base 64 encoder / decoder module
+
+const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/";
+
+export function base64Decode(number) {
 	let rv = 0;
 	digits = number.split('');
 	for(let i = 0; i < digits.length; i++) {
@@ -9,8 +12,7 @@ function base64Decode(number) {
 	return result;
 }
 
-function base64Encode(number){
-	const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/";
+export function base64Encode(number){
 	if (isNaN(Number(number)) || number === null || number === Number.POSITIVE_INFINITY || number < 0)
 		throw "The input is not valid";
 	let residual = Math.floor(number);
