@@ -10,7 +10,7 @@ let url = require("url");
 function onRequest(request, responce){
     console.log("Request for: " + request.url);
     if(request.url[1] != "?"){
-        let path = "../" + request.url;
+        let path = "../client/" + request.url;
         fs.readFile(path, function(err, data){
             if(err){
                 responce.writeHead(404);
