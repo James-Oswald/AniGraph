@@ -3,15 +3,27 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
+    "compounds": [
+        {
+            "name": "Main Debug",
+            "configurations": ["Client Debug", "Server Debug"]
+        }
+    ],
     "configurations": [
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
+            "name": "Client Debug",
             "url": "http://localhost:8000/index.html",
-            "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "Node Server",
-            "postDebugTask": "Kill Server"
+            "webRoot": "${workspaceFolder}/client"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Server Debug",
+            "cwd": "${workspaceFolder}/server/",
+            "program": "${workspaceFolder}/server/server.js",
+            "console": "externalTerminal"
         }
     ]
 }
