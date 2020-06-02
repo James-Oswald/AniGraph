@@ -203,12 +203,12 @@ function parse(rawData){
 	reload();
 }
 
-function reload(){
+export function reload(){
 	document.getElementById("charts").innerHTML = "";
 	seasonList();
 }
 
-function main(){
+export function main(){
 	let statHTML = "";
 	for(let i = 0; i < statuses.length; i++)
 		statHTML += "<input id='statOp" + i + "' type='checkbox' onchange='reload()' checked/><label for='statOp" + i + "'>" + statuses[i] + "</label>"
@@ -220,7 +220,7 @@ function main(){
 	fetch("./list2.xml").then(r => r.text()).then(d => parse(d));
 }
 
-function customYears(){
+export function customYears(){
 	let sy = document.getElementById("startYear");
 	let ey = document.getElementById("endYear");
 	sy.disabled = !sy.disabled;
@@ -228,7 +228,7 @@ function customYears(){
 	reload();
 }
 
-function newXML(){
+export function newXML(){
 	const reader = new FileReader();
 	reader.onload = function(e){
 		parse(e.target.result);

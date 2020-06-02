@@ -1,1 +1,2 @@
-start "ServerWindow" python -m http.server
+cd dbg
+start "ServerWindow" node server.js

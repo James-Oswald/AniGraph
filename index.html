@@ -6,7 +6,13 @@
 		<link rel="stylesheet" href="index.css"/>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 		<script type="module" src="index.js"></script>
-		<script src="MalScraper.js"></script>
+		<script type="module">
+			import {reload, newXML, customYears} from "./index.js";
+			window.reload = reload;
+			window.newXML = newXML;
+			window.customYears = customYears;
+		</script>
+		<!--<script src="MalScraper.js"></script>-->
 	</head>
 	<body>
 		<input type="file" id="xmlFileUpload" onChange="newXML()"></br>
@@ -19,7 +25,7 @@
 			<input id="customYears" type="checkbox" onclick="customYears()"/>
 			<label for="customYears">Use Custom Years?</label>
 			<input id="startYear" onchange="reload()" type="number" min="1900" max="2099" step="1" value="2000" disabled/>
-			<input id="endYear" onchange="reload()" type="number" min="1900" max="2099" step="1" value="2020" disabled/>
+			<input id="endYear" onchange="reload()" type="number" min="1900" max="2099" step="1" value="2021" disabled/>
 		</div>
 		<div id="charts"></div>
 		<!--<script> main(); </script>-->

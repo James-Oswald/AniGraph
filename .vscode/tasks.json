@@ -9,9 +9,8 @@
             "command": "echo Hello"
         },
         {
-            "label": "Python Server",
+            "label": "Node Server",
             "type": "shell",
-            //"command": "cmd.exe --% /c start ServerWindow python -m http.server",
             "windows":{
                 "command": "./dbg/StartServer.bat"
             }

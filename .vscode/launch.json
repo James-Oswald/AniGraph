@@ -10,7 +10,7 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:8000/index.html",
             "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "Python Server",
+            "preLaunchTask": "Node Server",
             "postDebugTask": "Kill Server"
         }
     ]
