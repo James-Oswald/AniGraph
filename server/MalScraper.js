@@ -4,24 +4,29 @@ a speed comparison at some point*/
 
 const https = require("https");
 const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-
+const {JSDOM} = jsdom;
 
 //function sliceName
 
 function processPage(HTMLString, id) {
     let document = new JSDOM(HTMLString).window.document;
+    let scrapeData = {info:{}};
     let infobox = document.getElementsByClassName("borderClass")[0].children[0];
-    let scrapeData = {}
     scrapeData["img"] = infobox.children[0].children[0].children[0].attributes["data-src"].value;
     for (let i = 0; i < infobox.children.length; i++) {
         let text = infobox.children[i].textContent.trim();
         if (/[a-zA-Z]+:\s.+/.test(text)) {
             let index = text.indexOf(":");
-            scrapeData[text.substring(0, index)] = text.substring(index + 1, text.length).trim();
+            scrapeData["info"][text.substring(0, index).toLowerCase()] = text.substring(index + 1, text.length).trim();
         }
     }
-
+    /[0-9]{4}/.match();
+    let relatedbox = document.getElementsByClassName("anime_detail_related_anime")[0].children[0];
+    for(let i = 0; i < relatedbox.children.length; i++){
+        relatedbox.children[i].innerText
+        let index = text.indexOf(":");
+        scrapeData["related"][text.substring(0, index).toLowerCase()] = text.substring(index + 1, text.length).trim();
+    }
     return rv;
 }
 
