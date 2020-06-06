@@ -8,48 +8,113 @@ const {JSDOM} = jsdom;
 
 //function sliceName
 
-function processPage(HTMLString, id) {
+const AnimeStructure = {
+    img:null,
+    info:{
+        english: null,
+        synonyms: [],
+        japanese: null,
+        type: null,
+        episodes: null,
+        status: null,
+        aired: null, 
+        premiered: null,
+        broadcast: null,
+        producers: [],
+        licensors: [],
+        studios: [],
+        source: null,
+        genres: [],
+        duration: null,
+        rating: null,
+        score: null,
+        ranked: null,
+        popularity: null,
+        members: null,
+        favorites: null,
+    }, 
+    related:{
+        adaptation: [],
+        "spin-off": [],
+        "side story": [],
+        summary: [],
+        sequel: [],
+        character: [],
+        other: [],
+        "alternative version": [],
+        prequel: [],
+        adaptationId: [],
+        "spin-offId": [],
+        "side storyId": [],
+        summaryId: [],
+        sequelId: [],
+        characterId: [],
+        otherId: [],
+        "alternative versionId": [],
+        prequelId: [],
+    }
+};
+
+function processPage(HTMLString, id){
     let document = new JSDOM(HTMLString).window.document;
-    let scrapeData = {info:{}};
+    let scrapeData = Object.assign({}, AnimeStructure);
     let infobox = document.getElementsByClassName("borderClass")[0].children[0];
     scrapeData["img"] = infobox.children[0].children[0].children[0].attributes["data-src"].value;
-    for (let i = 0; i < infobox.children.length; i++) {
+    for(let i = 0; i < infobox.children.length; i++) {
         let text = infobox.children[i].textContent.trim();
-        if (/[a-zA-Z]+:\s.+/.test(text)) {
+        if(/^[a-zA-Z]+:\s.+$/.test(text)) {
             let index = text.indexOf(":");
-            scrapeData["info"][text.substring(0, index).toLowerCase()] = text.substring(index + 1, text.length).trim();
+            let value = text.substring(index + 1, text.length).trim();
+            let label = text.substring(0, index).toLowerCase();
+            if(AnimeStructure["info"][label] != null){
+                value = value.split(",");
+                for(let j = 0; j < value.length; j++)
+                    value[j] = value[j].trim();
+            }else
+                value.trim();
+            scrapeData["info"][label] = value;
         }
     }
-    /[0-9]{4}/.match();
     let relatedbox = document.getElementsByClassName("anime_detail_related_anime")[0].children[0];
     for(let i = 0; i < relatedbox.children.length; i++){
-        relatedbox.children[i].innerText
+        let text = relatedbox.children[i].textContent.trim();
         let index = text.indexOf(":");
-        scrapeData["related"][text.substring(0, index).toLowerCase()] = text.substring(index + 1, text.length).trim();
+        let value = text.substring(index + 1, text.length).trim().split(",");
+        let label = text.substring(0, index).toLowerCase();
+        for(let j = 0; j < value.length; j++)
+            value[j] = value[j].trim();
+        scrapeData["related"][label] = value;
+        let tags = relatedbox.children[i].children[1].children;
+        let ids = [];
+        for(let tag of tags){
+            let id = tag.href.match(/[0-9]{5}/);
+            if(id.length == 1)
+                ids.push(id[0]);
+        }
+        scrapeData["related"][label + "Id"] = ids;
     }
     return rv;
 }
 
-function scrape(AnimeId) { //, callback, delay = 1){
+function scrape(AnimeId, callback){
     let url = "https://myanimelist.net/anime/" + AnimeId + "/";
     let req = https.request(url, function(responce) {
         let data = "";
         let status = responce.statusCode;
-        if (status == 200) {
+        if(status == 200) {
             responce.setEncoding("utf8");
             responce.on("data", function(chunk) { data += chunk; });
             responce.on("end", function() {
-                processPage(data, AnimeId);
+                callback(processPage(data, AnimeId));
             });
         } else {
             console.warn("Status Code " + status);
         }
-    })
+    });
     req.on("error", function(err) {
         console.error(err);
     });
     req.end();
-    //callback();
 }
 
-scrape(40591);
+module.exports = {scrape};
