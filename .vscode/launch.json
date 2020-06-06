@@ -29,6 +29,14 @@
             "cwd": "${workspaceFolder}/server/",
             "program": "${workspaceFolder}/server/MalScraper.js",
             "console": "externalTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "DataStore Debug",
+            "cwd": "${workspaceFolder}/server/",
+            "program": "${workspaceFolder}/server/MalDataStore.js",
+            "console": "externalTerminal"
         }
     ]
 }

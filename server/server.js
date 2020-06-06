@@ -6,19 +6,49 @@ const https = require("https");
 const fs = require("fs");
 const mime = require("mime");
 const url = require("url");
-const querystring = require('querystring');
-const dataStore = require("MalDataStore.js");
+const dataStore = require("./MalDataStore");
 
-//https://myanimelist.net/animelist/Tenebris-Lux/load.json
+//http://localhost:8000/list.json?user=Tenebris-Lux
 
 function onRequest(request, responce){
     console.log("Request for: " + request.url);
-    let reqUrl = new URL(request.url);
-    if(reqUrl.pathname="/client/list.json"){
-        let qs = querystring.parse(reqUrl.query);
-        if(qs["user"] != )
-
-        
+    let reqUrl = url.parse(request.url, true);
+    if(reqUrl.pathname == "/list.json"){
+        let query = reqUrl.query;
+        if(query != null && query.user != undefined){
+            let url = "https://myanimelist.net/animelist/" + query.user + "/load.json";
+            let malReq = https.request(url, function(malResponce){
+                let data = "";
+                let status = malResponce.statusCode;
+                if(status == 200){
+                    malResponce.setEncoding("utf8");
+                    malResponce.on("data", function(chunk){data += chunk;});
+                    malResponce.on("end", function(){
+                        let listData = JSON.parse(data);
+                        if(listData.errors != undefined){
+                            console.error(listData.errors);
+                            throw listData.errors;
+                        }
+                        let idList = [];
+                        for(let i = 0; i < listData.length; i++)
+                            idList.push(listData[i].anime_id)
+                        dataStore.queryIds(idList, function(animeInfo){
+                            let finalObject = {
+                                userData: listData,
+                                animeData: animeInfo
+                            };
+                            responce.writeHead(200, {"Content-Type": "application/json"});
+                            responce.write(JSON.stringify(finalObject)); 
+                            responce.end();
+                        });
+                    });
+                }else{
+                    console.warn("Status Code " + status);
+                }
+            });
+            malReq.on("error", function(err){console.error(err);});
+            malReq.end();
+        }
     }else{
         let path = "../client/" + request.url;
         fs.readFile(path, function(err, data){

@@ -75,25 +75,28 @@ function processPage(HTMLString, id){
             scrapeData["info"][label] = value;
         }
     }
-    let relatedbox = document.getElementsByClassName("anime_detail_related_anime")[0].children[0];
-    for(let i = 0; i < relatedbox.children.length; i++){
-        let text = relatedbox.children[i].textContent.trim();
-        let index = text.indexOf(":");
-        let value = text.substring(index + 1, text.length).trim().split(",");
-        let label = text.substring(0, index).toLowerCase();
-        for(let j = 0; j < value.length; j++)
-            value[j] = value[j].trim();
-        scrapeData["related"][label] = value;
-        let tags = relatedbox.children[i].children[1].children;
-        let ids = [];
-        for(let tag of tags){
-            let id = tag.href.match(/[0-9]{5}/);
-            if(id.length == 1)
-                ids.push(id[0]);
+    let related = document.getElementsByClassName("anime_detail_related_anime");
+    if(related.length > 0){
+        let relatedbox = related[0].children[0];
+        for(let i = 0; i < relatedbox.children.length; i++){
+            let text = relatedbox.children[i].textContent.trim();
+            let index = text.indexOf(":");
+            let value = text.substring(index + 1, text.length).trim().split(",");
+            let label = text.substring(0, index).toLowerCase();
+            for(let j = 0; j < value.length; j++)
+                value[j] = value[j].trim();
+            scrapeData["related"][label] = value;
+            let tags = relatedbox.children[i].children[1].children;
+            let ids = [];
+            for(let tag of tags){
+                let id = tag.href.match(/[0-9]+/);
+                if(id.length == 1)
+                    ids.push(id[0]);
+            }
+            scrapeData["related"][label + "Id"] = ids;
         }
-        scrapeData["related"][label + "Id"] = ids;
     }
-    return rv;
+    return scrapeData;
 }
 
 function scrape(AnimeId, callback){
