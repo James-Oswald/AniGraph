@@ -117,4 +117,4 @@ function scrape(AnimeId, callback){
     req.end();
 }
 
-module.exports = {scrape};
+module.exports.scrape = scrape;
