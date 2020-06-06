@@ -1,5 +1,5 @@
-let fs = require("fs");
-let scraper = require("MalScraper.js");
+const fs = require("fs");
+const scraper = require("MalScraper.js");
 
 let animeData = null;
 function init(callback = function(){}){
@@ -26,8 +26,10 @@ function queryIds(ids, callback){
             scraper.scrape(id, function(data){
                 animeData[id] = data;
                 confirmed++;
-                if(confirmed == ids.length)
+                if(confirmed == ids.length){
+                    fs.writeFile("animeData.json", JSON.stringify(animeData), function(){});
                     callback();
+                }
             });
         else
             confirmed++;

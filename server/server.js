@@ -1,16 +1,25 @@
 
 //using this to replace the python server for debuging as well as acting as a CORS proxy to get around stupid CORS rules for my XML Http requests
 
-let http = require("http");
-let https = require("https");
-let fs = require("fs");
-let mime = require("mime");
-let url = require("url");
+const http = require("http");
+const https = require("https");
+const fs = require("fs");
+const mime = require("mime");
+const url = require("url");
+const querystring = require('querystring');
+const dataStore = require("MalDataStore.js");
+
+//https://myanimelist.net/animelist/Tenebris-Lux/load.json
 
 function onRequest(request, responce){
     console.log("Request for: " + request.url);
     let reqUrl = new URL(request.url);
-    if(reqUrl.){
+    if(reqUrl.pathname="/client/list.json"){
+        let qs = querystring.parse(reqUrl.query);
+        if(qs["user"] != )
+
+        
+    }else{
         let path = "../client/" + request.url;
         fs.readFile(path, function(err, data){
             if(err){
@@ -23,8 +32,13 @@ function onRequest(request, responce){
                 responce.end();
             }
         });
-    }else{
-        let urlQ = url.parse(request.url, true).query;
+    }
+}
+
+http.createServer(onRequest).listen(8000);
+
+
+/*let urlQ = url.parse(request.url, true).query;
         console.log(urlQ);
         let decUrl = decodeURI(urlQ.encoded)
         let urlO = new URL(decUrl);
@@ -32,7 +46,7 @@ function onRequest(request, responce){
             hostname: urlO.hostname,
             path: urlO.path,
             port: urlO.port
-        };*/
+        };
         let req = https.request(urlO, function(getResponce){
             let data = "";
             getResponce.setEncoding("utf8");
@@ -44,7 +58,3 @@ function onRequest(request, responce){
         req.on("error", function(err){console.log(err);});
         req.end();
         //*/
-    }
-}
-
-http.createServer(onRequest).listen(8000);

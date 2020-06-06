@@ -6,10 +6,9 @@ const https = require("https");
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
 
-//function sliceName
-
+//Empty Structure for an Anime Object
 const AnimeStructure = {
-    img:null,
+    img: null,
     info:{
         english: null,
         synonyms: [],
@@ -55,6 +54,7 @@ const AnimeStructure = {
     }
 };
 
+//Convert raw HTML Page from MAL to an Anime Object
 function processPage(HTMLString, id){
     let document = new JSDOM(HTMLString).window.document;
     let scrapeData = Object.assign({}, AnimeStructure);
