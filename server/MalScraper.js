@@ -8,6 +8,7 @@ const {JSDOM} = jsdom;
 
 //Empty Structure for an Anime Object
 const AnimeStructure = {
+    id: null,
     img: null,
     info:{
         english: null,
@@ -59,6 +60,7 @@ function processPage(HTMLString, id){
     let document = new JSDOM(HTMLString).window.document;
     let scrapeData = Object.assign({}, AnimeStructure);
     let infobox = document.getElementsByClassName("borderClass")[0].children[0];
+    scrapeData["id"] = id;
     scrapeData["img"] = infobox.children[0].children[0].children[0].attributes["data-src"].value;
     for(let i = 0; i < infobox.children.length; i++) {
         let text = infobox.children[i].textContent.trim();
