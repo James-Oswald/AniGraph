@@ -217,7 +217,7 @@ export function main(){
 	for(let i = 0; i < showTypes.length; i++)
 		typeHTML += "<input id='typeOp" + i + "' type='checkbox' onchange='reload()' checked/><label for='typeOp" + i + "'>" + showTypes[i] + "</label>"
 	document.getElementById("typeOp").innerHTML = typeHTML;
-	fetch("./list2.xml").then(r => r.text()).then(d => parse(d));
+	fetch("./list3.xml").then(r => r.text()).then(d => parse(d));
 }
 
 export function customYears(){
